@@ -22,6 +22,10 @@ sed -i 's/server 3.centos.pool.ntp.org iburst/#server 3.centos.pool.ntp.org ibur
 systemctl restart ntpd
 ntpq -p
 
+# chrony stop
+systemctl stop chronyd
+systemctl disable chronyd
+
 # sysstat init
 systemctl start sysstat
 systemctl enable sysstat
@@ -35,4 +39,4 @@ echo -n '# Run system activity accounting tool every 10 minutes
 systemctl restart sysstat
 
 # reboot
-shutdown -r now
+#shutdown -r now
