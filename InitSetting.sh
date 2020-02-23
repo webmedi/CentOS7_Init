@@ -38,5 +38,10 @@ echo -n '# Run system activity accounting tool every 10 minutes
 53 23 * * * root /usr/lib64/sa/sa2 -A' > /etc/cron.d/sysstat
 systemctl restart sysstat
 
+# SELinux disable
+cp -p /etc/sysconfig/selinux ~/BACKUP_$(date +%Y%m%d)/selinux_$(date +%Y%m%d)
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+diff -s ~/BACKUP_$(date +%Y%m%d)/selinux_$(date +%Y%m%d) /etc/sysconfig/selinux
+
 # reboot
 #shutdown -r now
