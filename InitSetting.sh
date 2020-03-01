@@ -5,7 +5,7 @@ echo $LANG
 timedatectl set-timezone Asia/Tokyo
 hostnamectl set-hostname dev.centos7.com
 uname -a
-yum -y install git wget vim curl sysstat unzip
+yum -y install git wget vim curl sysstat unzip mlocate iotop net-tools
 
 # vim customize
 git clone https://github.com/webmedi/test.git
@@ -40,8 +40,15 @@ systemctl restart sysstat
 
 # SELinux disable
 cp -p /etc/sysconfig/selinux ~/BACKUP_$(date +%Y%m%d)/selinux_$(date +%Y%m%d)
+cp -p /etc/selinux/config ~/BACKUP_$(date +%Y%m%d)/config_$(date +%Y%m%d)
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+sed -i 's/SELINUX=enforcing/disabled/g' /etc/selinux/config
 diff -s ~/BACKUP_$(date +%Y%m%d)/selinux_$(date +%Y%m%d) /etc/sysconfig/selinux
+echo "-------------------------------------"
+diff -s ~/BACKUP_$(date +%Y%m%d)/config /etc/selinux/config
+
+# mlocate update
+updatedb
 
 # reboot
 #shutdown -r now
