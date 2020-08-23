@@ -42,7 +42,7 @@ systemctl restart sysstat
 cp -p /etc/sysconfig/selinux ~/BACKUP_$(date +%Y%m%d)/selinux_$(date +%Y%m%d)
 cp -p /etc/selinux/config ~/BACKUP_$(date +%Y%m%d)/config_$(date +%Y%m%d)
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
-sed -i 's/SELINUX=enforcing/disabled/g' /etc/selinux/config
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 diff -s ~/BACKUP_$(date +%Y%m%d)/selinux_$(date +%Y%m%d) /etc/sysconfig/selinux
 echo "-------------------------------------"
 diff -s ~/BACKUP_$(date +%Y%m%d)/config /etc/selinux/config
@@ -51,4 +51,4 @@ diff -s ~/BACKUP_$(date +%Y%m%d)/config /etc/selinux/config
 updatedb
 
 # reboot
-#shutdown -r now
+shutdown -r now
