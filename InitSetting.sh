@@ -50,5 +50,8 @@ diff -s ~/BACKUP_$(date +%Y%m%d)/config /etc/selinux/config
 # mlocate update
 updatedb
 
+# OS Update
+yum -y update
+
 # reboot
 shutdown -r now
