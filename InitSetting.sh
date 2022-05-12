@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+setenforce 0
 localectl set-locale LANG=ja_JP.UTF-8
 source /etc/locale.conf
 echo $LANG
 timedatectl set-timezone Asia/Tokyo
 hostnamectl set-hostname dev.centos7.com
 uname -a
-yum -y install git wget vim curl sysstat unzip mlocate iotop net-tools
+yum -y install git wget vim curl sysstat unzip mlocate iotop net-tools lsof
 
 # vim customize
 git clone https://github.com/webmedi/test.git
