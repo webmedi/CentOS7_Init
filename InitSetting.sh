@@ -6,7 +6,18 @@ echo $LANG
 timedatectl set-timezone Asia/Tokyo
 hostnamectl set-hostname dev.centos7.com
 uname -a
-yum -y install git wget vim curl sysstat unzip mlocate iotop net-tools lsof
+
+yum -y install git
+yum -y install wget
+yum -y install vim
+yum -y install curl
+yum -y install sysstat
+yum -y install unzip
+yum -y install mlocate
+yum -y install iotop
+yum -y install net-tools
+yum -y install lsof
+yum -y install glibc-langpack-ja
 
 # vim customize
 git clone https://github.com/webmedi/test.git
