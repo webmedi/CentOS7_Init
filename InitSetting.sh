@@ -48,6 +48,12 @@ echo -n '# Run system activity accounting tool every 10 minutes
 # 0 * * * * root /usr/lib64/sa/sa1 600 6 &
 # Generate a daily summary of process accounting at 23:53
 53 23 * * * root /usr/lib64/sa/sa2 -A' > /etc/cron.d/sysstat
+
+cp -p /etc/sysstat/sysstat /etc/sysstat/sysstat.org
+cp -p /etc/sysstat/sysstat /etc/sysstat/sysstat_$(date +"%Y%m%d")
+sed -i 's/HISTORY=7/HISTORY=28/g' /etc/sysstat/sysstat
+sed -i 's/COMPRESSAFTER=10/COMPRESSAFTER=31/g' /etc/sysstat/sysstat
+
 systemctl restart sysstat
 
 # SELinux disable
