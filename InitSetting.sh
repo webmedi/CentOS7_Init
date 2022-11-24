@@ -65,6 +65,32 @@ diff -s ~/BACKUP_$(date +%Y%m%d)/selinux_$(date +%Y%m%d) /etc/sysconfig/selinux
 echo "-------------------------------------"
 diff -s ~/BACKUP_$(date +%Y%m%d)/config /etc/selinux/config
 
+# systemd log level, rsyslog log level
+cp -p /etc/systemd/system.conf /etc/systemd/system.conf.org
+cp -p /etc/systemd/system.conf /etc/systemd/system.conf_$(date +%Y%m%d)
+sed -i 's/#LogLevel=info/LogLevel=notice/g' /etc/systemd/system.conf
+systemctl daemon-reexec
+
+cp -p /etc/systemd/journald.conf /etc/systemd/journald.conf.org
+cp -p /etc/systemd/journald.conf /etc/systemd/journald.conf_$(date +%Y%m%d)
+sed -i 's/#RateLimitIntervalSec=30s/RateLimitIntervalSec=0/g' /etc/systemd/journald.conf
+
+cp -p /etc/rsyslog.conf /etc/rsyslog.conf.org
+cp -p /etc/rsyslog.conf /etc/rsyslog.conf_$(date +%Y%m%d)
+echo "# Rate Limit" >> /etc/rsyslog.conf
+echo '$imjournalRatelimitInterval 0' >> /etc/rsyslog.conf
+
+systemctl restart systemd-journald
+systemctl restart rsyslog.service
+
+# cloud-init
+sed -i 's/- set_hostname/# - set_hostname/g' /etc/cloud/cloud.cfg
+sed -i 's/- update_hostname/# - update_hostname/g' /etc/cloud/cloud.cfg
+sed -i 's/- update_etc_hosts/# - update_etc_hosts/g' /etc/cloud/cloud.cfg
+sed -i 's/- locale/# - locale/g' /etc/cloud/cloud.cfg
+sed -i 's/- timezone/# - timezone/g' /etc/cloud/cloud.cfg
+sed -i 's/preserve_hostname: false/preserve_hostname: true/g' /etc/cloud/cloud.cfg
+
 # mlocate update
 updatedb
 
