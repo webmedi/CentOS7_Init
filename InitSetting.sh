@@ -69,6 +69,7 @@ diff -s ~/BACKUP_$(date +%Y%m%d)/config /etc/selinux/config
 cp -p /etc/systemd/system.conf /etc/systemd/system.conf.org
 cp -p /etc/systemd/system.conf /etc/systemd/system.conf_$(date +%Y%m%d)
 sed -i 's/#LogLevel=info/LogLevel=notice/g' /etc/systemd/system.conf
+systemd-analyze set-log-level notice
 systemctl daemon-reexec
 
 cp -p /etc/systemd/journald.conf /etc/systemd/journald.conf.org
