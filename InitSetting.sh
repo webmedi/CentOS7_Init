@@ -81,6 +81,8 @@ cp -p /etc/rsyslog.conf /etc/rsyslog.conf_$(date +%Y%m%d)
 echo "# Rate Limit" >> /etc/rsyslog.conf
 echo '$imjournalRatelimitInterval 0' >> /etc/rsyslog.conf
 
+echo 'if $programname == "systemd" and ($msg contains "Starting Session" or $msg contains "Started Session" or $msg contains "Created slice" or $msg contains "Starting User" or $msg contains "Removed slice" or $msg contains "Stopping User") then stop' >> /etc/rsyslog.d/ignore-systemd-session-slice.conf
+
 systemctl restart systemd-journald
 systemctl restart rsyslog.service
 
