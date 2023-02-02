@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 setenforce 0
-localectl set-locale LANG=ja_JP.UTF-8
-source /etc/locale.conf
-echo $LANG
 timedatectl set-timezone Asia/Tokyo
 hostnamectl set-hostname dev.centos7.com
 uname -a
@@ -18,6 +15,13 @@ yum -y install iotop
 yum -y install net-tools
 yum -y install lsof
 yum -y install glibc-langpack-ja
+yum -y install bash-completion
+
+localectl set-locale LANG=ja_JP.UTF-8
+source /etc/locale.conf
+echo $LANG
+
+wget https://github.com/terralinux/systemd/raw/master/src/systemctl-bash-completion.sh -O /etc/bash_completion.d/systemctl-bash-completion.sh
 
 # vim customize
 git clone https://github.com/webmedi/test.git
@@ -116,6 +120,18 @@ sed -i 's/- update_etc_hosts/# - update_etc_hosts/g' /etc/cloud/cloud.cfg
 sed -i 's/- locale/# - locale/g' /etc/cloud/cloud.cfg
 sed -i 's/- timezone/# - timezone/g' /etc/cloud/cloud.cfg
 sed -i 's/preserve_hostname: false/preserve_hostname: true/g' /etc/cloud/cloud.cfg
+
+# swap
+chmod +x /etc/rc.d/rc.local
+
+dd if=/dev/zero of=/swap bs=1M count=4096
+
+echo -e -n 'mkswap /swap\n' >> /etc/rc.d/rc.local
+echo -e -n 'swapon /swap\n' >> /etc/rc.d/rc.local
+echo -e -n 'chmod 600 /swap\n' >> /etc/rc.d/rc.local
+
+echo "vm.swappiness=0" >> /etc/sysctl.conf
+sysctl -p
 
 # mlocate update
 updatedb
