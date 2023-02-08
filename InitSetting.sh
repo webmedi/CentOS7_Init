@@ -86,7 +86,7 @@ echo "# Rate Limit" >> /etc/rsyslog.conf
 echo '$imjournalRatelimitInterval 0' >> /etc/rsyslog.conf
 
 echo 'if $programname == "systemd" and ($msg contains "Starting Session" or $msg contains "Started Session" or $msg contains "Created slice" or $msg contains "Starting User" or $msg contains "Removed slice" or $msg contains "Stopping User") then stop' >> /etc/rsyslog.d/ignore-systemd-session-slice.conf
-echo -n 'if $programname == "systemd" and (\ $msg contains "Closed D-Bus" \
+echo -n 'if $programname == "systemd" and ($msg contains "Closed D-Bus" \
 or $msg contains "Closed Multimedia System" \
 or $msg contains "Closed REST API socket" \
 or $msg contains "Created slice" \
